@@ -21,7 +21,10 @@ ssl_context = ssl.create_default_context()
 
 
 def make_client(
-    cookies: Optional[dict[str, str]] = None, *, device_type: DeviceType = "pc"
+    cookies: Optional[dict[str, str]] = None,
+    *,
+    device_type: DeviceType = "pc",
+    http2: bool = False,
 ):
     return httpx.AsyncClient(
         verify=ssl_context,
@@ -30,6 +33,7 @@ def make_client(
             "Referer": "https://music.163.com",
         },
         cookies=cookies,
+        http2=http2,
     )
 
 

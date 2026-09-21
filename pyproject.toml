@@ -14,6 +14,16 @@ license = {text = "MIT"}
 requires = ["pdm-backend"]
 build-backend = "pdm.backend"
 
+[tool.pdm.scripts]
+test = "pytest"
+format = "ruff check --fix ./src ./tests"
 
 [tool.pdm]
 distribution = true
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "ruff>=0.16.8",
+    "pytest-asyncio>=1.4.0",
+]

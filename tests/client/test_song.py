@@ -18,13 +18,13 @@ def client():
     return client
 
 
-@pytest.mark.parametrize("ids", itertools.chain(IDS_LIST, ([x] for x in ID_LIST)))
+@pytest.mark.parametrize("ids", IDS_LIST + [[x] for x in ID_LIST])
 @pytest.mark.asyncio
 async def test_audio(client: EBNR, ids: list[int]):
     await client.song.get_audio(ids)
 
 
-@pytest.mark.parametrize("ids", itertools.chain(IDS_LIST, ([x] for x in ID_LIST)))
+@pytest.mark.parametrize("ids", IDS_LIST + [[x] for x in ID_LIST])
 @pytest.mark.asyncio
 async def test_song_info(client: EBNR, ids: list[int]):
     await client.song.get_song_info(ids)

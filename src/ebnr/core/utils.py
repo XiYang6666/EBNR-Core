@@ -2,6 +2,7 @@ import re
 import ssl
 import urllib.parse
 from collections.abc import Iterable
+from contextlib import nullcontext
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Literal, Protocol
@@ -86,3 +87,9 @@ def extract_playlist_tracks(
         known_tracks[begin_id:end_id],
         id_list[max(begin_id, len(known_tracks)) : end_id],
     )
+
+
+def client_context(http_client: httpx.AsyncClient | None, *, http2: bool = False):
+    if http_client is not None:
+        return nullcontext(http_client)
+    return make_client(http2=http2)

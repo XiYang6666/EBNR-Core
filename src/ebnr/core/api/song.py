@@ -12,7 +12,7 @@ from ebnr.core.parser import (
     parse_song_json,
 )
 from ebnr.core.types import Encoding, Quality, SongInfo
-from ebnr.core.utils import extract_playlist_tracks, make_client, remap_result
+from ebnr.core.utils import client_context, extract_playlist_tracks, remap_result
 
 
 async def get_audio(
@@ -32,7 +32,7 @@ async def get_audio(
         )
         return [parse_audio_json(audio_data) for audio_data in audios_data["data"]]
 
-    with http_client or make_client(http2=True) as client:
+    async with client_context(http_client, http2=True) as client:
         tasks = [get_audio_batch(current_ids) for current_ids in batches]
         results = await asyncio.gather(*tasks)
 
@@ -53,7 +53,7 @@ async def get_song_info(
         )
         return [parse_song_json(info) for info in songs_info_data["songs"]]
 
-    with http_client or make_client(http2=True) as client:
+    async with client_context(http_client, http2=True) as client:
         tasks = [get_song_batch(current_ids) for current_ids in batches]
         results = await asyncio.gather(*tasks)
 

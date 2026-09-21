@@ -6,7 +6,7 @@ from ebnr.core.cryto.eapi import make_eapi_form, make_eapi_header
 from ebnr.core.cryto.weapi import make_weapi_form
 from ebnr.core.excaptions import NeteaseApiException
 from ebnr.core.types import Encoding, Quality
-from ebnr.core.utils import make_client
+from ebnr.core.utils import client_context
 
 
 async def get_audio(
@@ -28,7 +28,7 @@ async def get_audio(
     if quality == Quality.SKY:
         payload["immerseType"] = "c51"
     form = make_eapi_form(eapi_path, json.dumps(payload))
-    async with http_client or make_client() as client:
+    async with client_context(http_client) as client:
         response = await client.post(request_url, data=form, cookies=cookies)
     result = response.json()
     if result["code"] != 200:
@@ -52,7 +52,7 @@ async def get_song_info(
             {"c": json.dumps([{"id": id} for id in ids]), "ids": json.dumps(ids)}
         )
     )
-    async with http_client or make_client() as client:
+    async with client_context(http_client) as client:
         response = await client.post(request_url, data=form, cookies=cookies)
     result = response.json()
     if result["code"] != 200:
@@ -71,7 +71,7 @@ async def get_lyric(
     cookies: dict[str, str] | None = None,
 ) -> dict | None:
     request_url = "https://interface3.music.163.com/api/song/lyric"
-    async with http_client or make_client() as client:
+    async with client_context(http_client) as client:
         response = await client.post(
             request_url,
             data={
@@ -107,7 +107,7 @@ async def search(
     cookies: dict[str, str] | None = None,
 ) -> dict:
     request_url = "https://music.163.com/api/cloudsearch/pc"
-    async with http_client or make_client() as client:
+    async with client_context(http_client) as client:
         response = await client.post(
             request_url,
             data={"s": keyword, "type": 1, "limit": limit},
@@ -130,7 +130,7 @@ async def get_playlist(
     cookies: dict[str, str] | None = None,
 ) -> dict | None:
     request_url = "https://music.163.com/api/v6/playlist/detail"
-    async with http_client or make_client() as client:
+    async with client_context(http_client) as client:
         response = await client.post(
             request_url,
             data={"id": id, "n": 100000, "s": 8},
@@ -155,7 +155,7 @@ async def get_album(
     cookies: dict[str, str] | None = None,
 ) -> dict | None:
     request_url = f"https://music.163.com/api/v1/album/{id}"
-    async with http_client or make_client() as client:
+    async with client_context(http_client) as client:
         response = await client.get(request_url, cookies=cookies)
     result = response.json()
     if result["code"] == 404:

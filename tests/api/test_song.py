@@ -20,13 +20,13 @@ from tests.constants import (
 )
 
 
-@pytest.mark.parametrize("ids", itertools.chain(IDS_LIST, ([x] for x in ID_LIST)))
+@pytest.mark.parametrize("ids", IDS_LIST + [[x] for x in ID_LIST])
 @pytest.mark.asyncio
 async def test_audio(ids: list[int]):
     await get_audio(ids)
 
 
-@pytest.mark.parametrize("ids", itertools.chain(IDS_LIST, ([x] for x in ID_LIST)))
+@pytest.mark.parametrize("ids", IDS_LIST + [[x] for x in ID_LIST])
 @pytest.mark.asyncio
 async def test_song_info(ids: list[int]):
     await get_song_info(ids)

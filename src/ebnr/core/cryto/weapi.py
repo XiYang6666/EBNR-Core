@@ -1,6 +1,5 @@
 import base64
 import secrets
-from typing import Tuple
 
 from cryptography.hazmat.primitives import padding, serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
@@ -27,7 +26,7 @@ def aes_cbc_encrypt(data: bytes, key: bytes, iv: bytes) -> bytes:
     return encryptor.update(padded_data) + encryptor.finalize()
 
 
-def new_len16_rand() -> Tuple[bytes, bytes]:
+def new_len16_rand() -> tuple[bytes, bytes]:
     rand_bytes = bytes(secrets.choice(STD_CHARS) for _ in range(16))
     rand_bytes_rev = rand_bytes[::-1]
     return rand_bytes, rand_bytes_rev

@@ -1,5 +1,4 @@
 import json
-from typing import Optional
 
 import httpx
 
@@ -15,8 +14,8 @@ async def get_audio(
     quality: Quality = Quality.STANDARD,
     encoding: Encoding = Encoding.FLAC,
     *,
-    http_client: Optional[httpx.AsyncClient] = None,
-    cookies: Optional[dict[str, str]] = None,
+    http_client: httpx.AsyncClient | None = None,
+    cookies: dict[str, str] | None = None,
 ) -> dict:
     request_url = "https://interface3.music.163.com/eapi/song/enhance/player/url/v1"
     eapi_path = "/api/song/enhance/player/url/v1"
@@ -44,8 +43,8 @@ async def get_audio(
 async def get_song_info(
     ids: list[int],
     *,
-    http_client: Optional[httpx.AsyncClient] = None,
-    cookies: Optional[dict[str, str]] = None,
+    http_client: httpx.AsyncClient | None = None,
+    cookies: dict[str, str] | None = None,
 ) -> dict:
     request_url = "https://music.163.com/weapi/v3/song/detail"
     form = make_weapi_form(
@@ -68,9 +67,9 @@ async def get_song_info(
 async def get_lyric(
     id: int,
     *,
-    http_client: Optional[httpx.AsyncClient] = None,
-    cookies: Optional[dict[str, str]] = None,
-) -> Optional[dict]:
+    http_client: httpx.AsyncClient | None = None,
+    cookies: dict[str, str] | None = None,
+) -> dict | None:
     request_url = "https://interface3.music.163.com/api/song/lyric"
     async with http_client or make_client() as client:
         response = await client.post(
@@ -104,8 +103,8 @@ async def search(
     keyword: str,
     limit: int = 10,
     *,
-    http_client: Optional[httpx.AsyncClient] = None,
-    cookies: Optional[dict[str, str]] = None,
+    http_client: httpx.AsyncClient | None = None,
+    cookies: dict[str, str] | None = None,
 ) -> dict:
     request_url = "https://music.163.com/api/cloudsearch/pc"
     async with http_client or make_client() as client:
@@ -127,9 +126,9 @@ async def search(
 async def get_playlist(
     id: int,
     *,
-    http_client: Optional[httpx.AsyncClient] = None,
-    cookies: Optional[dict[str, str]] = None,
-) -> Optional[dict]:
+    http_client: httpx.AsyncClient | None = None,
+    cookies: dict[str, str] | None = None,
+) -> dict | None:
     request_url = "https://music.163.com/api/v6/playlist/detail"
     async with http_client or make_client() as client:
         response = await client.post(
@@ -152,9 +151,9 @@ async def get_playlist(
 async def get_album(
     id: int,
     *,
-    http_client: Optional[httpx.AsyncClient] = None,
-    cookies: Optional[dict[str, str]] = None,
-) -> Optional[dict]:
+    http_client: httpx.AsyncClient | None = None,
+    cookies: dict[str, str] | None = None,
+) -> dict | None:
     request_url = f"https://music.163.com/api/v1/album/{id}"
     async with http_client or make_client() as client:
         response = await client.get(request_url, cookies=cookies)

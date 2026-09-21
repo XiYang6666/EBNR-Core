@@ -1,4 +1,3 @@
-from typing import Optional
 
 import httpx
 
@@ -8,8 +7,8 @@ from ebnr.core.utils import make_client
 
 async def get_user_info(
     *,
-    client: Optional[httpx.AsyncClient] = None,
-    cookies: Optional[dict[str, str]] = None,
+    client: httpx.AsyncClient | None = None,
+    cookies: dict[str, str] | None = None,
 ) -> dict:
     request_url = "https://music.163.com/weapi/nuser/account/get"
     form = make_weapi_form("{}")

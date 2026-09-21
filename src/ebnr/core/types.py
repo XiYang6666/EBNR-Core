@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 from datetime import datetime
 from enum import IntEnum, StrEnum
-from typing import Optional
 
 
 class Quality(StrEnum):
@@ -33,9 +32,9 @@ class Encoding(StrEnum):
 @dataclass
 class AudioInfo:
     id: int
-    url: Optional[str]
+    url: str | None
     # 编码
-    encoding: Optional[Encoding]
+    encoding: Encoding | None
     # 比特率
     bitrate: int
     # 文件大小
@@ -59,16 +58,16 @@ class AudioInfo:
 class ArtistShort:
     id: int
     name: str
-    translations: Optional[list[str]]
-    alias: Optional[list[str]]
+    translations: list[str] | None
+    alias: list[str] | None
 
 
 @dataclass
 class AlbumShort:
     id: int
     name: str
-    translations: Optional[list[str]]
-    cover_url: Optional[str]
+    translations: list[str] | None
+    cover_url: str | None
 
 
 @dataclass
@@ -78,47 +77,47 @@ class QualityInfo:
     # 文件大小
     size: int
     # 采样率
-    sample_rate: Optional[int]
+    sample_rate: int | None
 
 
 @dataclass
 class Qualities:
     # 标准音质(l)
-    standard: Optional[QualityInfo]
+    standard: QualityInfo | None
     # 高音质
-    higher: Optional[QualityInfo]
+    higher: QualityInfo | None
     # 极高音质(h)
-    exhigh: Optional[QualityInfo]
+    exhigh: QualityInfo | None
     # 无损音质(sq)
-    lossless: Optional[QualityInfo]
+    lossless: QualityInfo | None
     # Hires音质(hr)
-    hires: Optional[QualityInfo]
+    hires: QualityInfo | None
     # 沉浸环绕声
-    sky: Optional[QualityInfo]
+    sky: QualityInfo | None
     # 高清环绕声
-    jyeffect: Optional[QualityInfo]
+    jyeffect: QualityInfo | None
     # 超清母带()
-    jymaster: Optional[QualityInfo]
+    jymaster: QualityInfo | None
 
 
 @dataclass
 class SongInfo:
     id: int
     name: str
-    main_title: Optional[str]
-    additional_title: Optional[str]
-    translations: Optional[list[str]]
-    alias: Optional[list[str]]
+    main_title: str | None
+    additional_title: str | None
+    translations: list[str] | None
+    alias: list[str] | None
     # 流行度(0-100)
     pop: float
     # 艺术家
     artists: list[ArtistShort]
     # 专辑
-    album: Optional[AlbumShort]
+    album: AlbumShort | None
     # MV id
-    music_video_id: Optional[int]
+    music_video_id: int | None
     # 发布时间
-    publish_time: Optional[datetime]
+    publish_time: datetime | None
     # 质量
     qualities: Qualities
 
@@ -139,14 +138,14 @@ class LyricContent:
 
 @dataclass
 class LyricData:
-    lyric_contributor: Optional[LyricContributor]
-    translation_contributor: Optional[LyricContributor]
+    lyric_contributor: LyricContributor | None
+    translation_contributor: LyricContributor | None
 
-    original_lyric: Optional[LyricContent]
-    translated_lyric: Optional[LyricContent]
-    romaji_lyric: Optional[LyricContent]
-    karaoke_lyric: Optional[LyricContent]
-    word_by_word_lyric: Optional[LyricContent]
+    original_lyric: LyricContent | None
+    translated_lyric: LyricContent | None
+    romaji_lyric: LyricContent | None
+    karaoke_lyric: LyricContent | None
+    word_by_word_lyric: LyricContent | None
 
 
 @dataclass
@@ -163,11 +162,11 @@ class PlaylistCreator:
 class Playlist:
     id: int
     name: str
-    description: Optional[str]
+    description: str | None
     cover_url: str
     track_count: int
     play_count: int
-    creator: Optional[PlaylistCreator]
+    creator: PlaylistCreator | None
     track_ids: list[int]
     tracks: list[SongInfo]
 
@@ -179,8 +178,8 @@ class Artist(ArtistShort):
 
 @dataclass
 class Album(AlbumShort):
-    alias: Optional[list[str]]
-    description: Optional[str]
+    alias: list[str] | None
+    description: str | None
     artists: list[ArtistShort]
     songs: list[SongInfo]
 

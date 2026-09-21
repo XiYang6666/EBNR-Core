@@ -2,7 +2,6 @@ import json
 import weakref
 from asyncio import Semaphore
 from pathlib import Path
-from typing import Optional
 
 from ebnr.core.api import raw, song
 from ebnr.core.types import Encoding, Quality
@@ -10,7 +9,7 @@ from ebnr.core.types import Encoding, Quality
 
 class EBNRRawSong:
     def __init__(self, client: "EBNR") -> None:
-        self._client: "EBNR" = weakref.proxy(client)
+        self._client: EBNR = weakref.proxy(client)
 
     async def get_audio(
         self,
@@ -46,7 +45,7 @@ class EBNRRawSong:
 
 class EBNRRawUser:
     def __init__(self, client: "EBNR") -> None:
-        self._client: "EBNR" = weakref.proxy(client)
+        self._client: EBNR = weakref.proxy(client)
 
     async def get_user_info(self):
         async with self._client._semaphore:
@@ -61,7 +60,7 @@ class EBNRRaw:
 
 class EbnrSong:
     def __init__(self, client: "EBNR") -> None:
-        self._client: "EBNR" = weakref.proxy(client)
+        self._client: EBNR = weakref.proxy(client)
 
     async def get_audio(
         self,
@@ -103,7 +102,7 @@ class EBNR:
     def __init__(
         self,
         *,
-        cookies: Optional[dict[str, str]] = None,
+        cookies: dict[str, str] | None = None,
         semaphore: Semaphore = Semaphore(200),
     ):
         self._cookies = cookies

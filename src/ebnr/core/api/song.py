@@ -1,6 +1,5 @@
 import asyncio
 from itertools import chain
-from typing import Optional
 
 import httpx
 
@@ -21,8 +20,8 @@ async def get_audio(
     quality: Quality = Quality.STANDARD,
     encoding: Encoding = Encoding.FLAC,
     *,
-    http_client: Optional[httpx.AsyncClient] = None,
-    cookies: Optional[dict[str, str]] = None,
+    http_client: httpx.AsyncClient | None = None,
+    cookies: dict[str, str] | None = None,
 ):
     # 2000 一批都没问题, 但大了容易超时
     batches = [ids[i : i + 1000] for i in range(0, len(ids), 1000)]
@@ -43,8 +42,8 @@ async def get_audio(
 async def get_song_info(
     ids: list[int],
     *,
-    http_client: Optional[httpx.AsyncClient] = None,
-    cookies: Optional[dict[str, str]] = None,
+    http_client: httpx.AsyncClient | None = None,
+    cookies: dict[str, str] | None = None,
 ):
     batches = [ids[i : i + 1000] for i in range(0, len(ids), 1000)]
 
@@ -64,8 +63,8 @@ async def get_song_info(
 async def get_lyric(
     id: int,
     *,
-    http_client: Optional[httpx.AsyncClient] = None,
-    cookies: Optional[dict[str, str]] = None,
+    http_client: httpx.AsyncClient | None = None,
+    cookies: dict[str, str] | None = None,
 ):
     if (
         lyric_data := await raw.song.get_lyric(
@@ -80,8 +79,8 @@ async def search(
     keyword: str,
     limit: int = 10,
     *,
-    http_client: Optional[httpx.AsyncClient] = None,
-    cookies: Optional[dict[str, str]] = None,
+    http_client: httpx.AsyncClient | None = None,
+    cookies: dict[str, str] | None = None,
 ):
     search_data = await raw.song.search(
         keyword, limit, http_client=http_client, cookies=cookies
@@ -92,8 +91,8 @@ async def search(
 async def get_playlist(
     id: int,
     *,
-    http_client: Optional[httpx.AsyncClient] = None,
-    cookies: Optional[dict[str, str]] = None,
+    http_client: httpx.AsyncClient | None = None,
+    cookies: dict[str, str] | None = None,
 ):
     playlist_data = await raw.song.get_playlist(
         id, http_client=http_client, cookies=cookies
@@ -108,9 +107,9 @@ async def get_tracks(
     limit: int = 1000,
     page: int = 0,
     *,
-    http_client: Optional[httpx.AsyncClient] = None,
-    cookies: Optional[dict[str, str]] = None,
-) -> Optional[list[SongInfo | None]]:
+    http_client: httpx.AsyncClient | None = None,
+    cookies: dict[str, str] | None = None,
+) -> list[SongInfo | None] | None:
     data = await get_playlist(id, http_client=http_client, cookies=cookies)
     if data is None:
         return None
@@ -121,8 +120,8 @@ async def get_tracks(
 async def get_album(
     id: int,
     *,
-    http_client: Optional[httpx.AsyncClient] = None,
-    cookies: Optional[dict[str, str]] = None,
+    http_client: httpx.AsyncClient | None = None,
+    cookies: dict[str, str] | None = None,
 ):
     album_data = await raw.song.get_album(id, http_client=http_client, cookies=cookies)
     if album_data is None:

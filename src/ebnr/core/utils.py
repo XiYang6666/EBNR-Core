@@ -1,9 +1,10 @@
 import re
 import ssl
 import urllib.parse
+from collections.abc import Iterable
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Iterable, Literal, Optional, Protocol
+from typing import Literal, Protocol
 
 import httpx
 
@@ -21,7 +22,7 @@ ssl_context = ssl.create_default_context()
 
 
 def make_client(
-    cookies: Optional[dict[str, str]] = None,
+    cookies: dict[str, str] | None = None,
     *,
     device_type: DeviceType = "pc",
     http2: bool = False,
@@ -61,7 +62,7 @@ class HaveId(Protocol):
     id: int
 
 
-def remap_result[T: HaveId](ids: list[int], list: Iterable[T]) -> list[Optional[T]]:
+def remap_result[T: HaveId](ids: list[int], list: Iterable[T]) -> list[T | None]:
     id_map = {i.id: i for i in list}
     return [id_map.get(i) for i in ids]
 

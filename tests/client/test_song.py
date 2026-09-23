@@ -1,5 +1,3 @@
-import itertools
-
 import pytest
 
 from ebnr.core.client import EBNR

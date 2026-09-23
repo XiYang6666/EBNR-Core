@@ -103,10 +103,10 @@ class EBNR:
         self,
         *,
         cookies: dict[str, str] | None = None,
-        semaphore: Semaphore = Semaphore(200),
+        semaphore: Semaphore | None = None,
     ):
         self._cookies = cookies
-        self._semaphore = semaphore
+        self._semaphore = semaphore or Semaphore(200)
         self.raw = EBNRRaw(self)
         self.song = EbnrSong(self)
 

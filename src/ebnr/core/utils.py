@@ -4,7 +4,7 @@ import urllib.parse
 from collections.abc import Iterable
 from contextlib import nullcontext
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Literal, Protocol
 
 import httpx
@@ -54,7 +54,7 @@ def fix_song_url(url: str) -> str:
 
 def make_datetime(ts: float):
     try:
-        return datetime.fromtimestamp(ts)
+        return datetime.fromtimestamp(ts, tz=UTC)
     except OSError:
         return None
 
